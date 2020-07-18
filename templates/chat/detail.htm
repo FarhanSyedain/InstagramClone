@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="container-fluid p-2 ">
-            <div class="msg_">
+            <div class="msg_ ">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa inventore exercitationem accusantium optio laudantium ab? Nobis nam veritatis animi neque.
             </div>
         </div>
@@ -44,8 +44,8 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa inventore exercitationem accusantium optio laudantium ab? Nobis nam veritatis animi neque.
             </div>
         </div>
-        <div class="container-fluid p-2 ">
-            <div class="msg">
+        <div  class="container-fluid p-2 ">
+            <div  class="msg">
                 lo
             </div>
         </div>
@@ -55,6 +55,32 @@
         <button style="display: block;margin:auto" class="btn btn-outline-success text-center mt-2 ">Send</button>
         <br><br><br>
     </div>
+
+<script>
+
+    function delete_confirmation(){
+
+        window.alert('Clcked')
+
+    }
+
+    var massages = document.getElementsByClassName('msg')
+    var massages_ = document.getElementsByClassName('msg_')
+    // massages = massages + massages_   #i dont know how zip two lists
+
+
+
+    for (var i = 0 ; i < massages.length; i++){
+        console.log(massages)
+        massages[i].addEventListener('dblclick',function(e){
+
+            window.alert('Clcked')
+
+        })
+    }
+
+
+</script>
 </body>
 </html>
 
@@ -68,6 +94,11 @@ Some JS functionalities
     Instead of showing user first msg availible -- in the database -- ,take user to either the last msg -- in case user has seen all msgs -- or 
     to the oldest msg which ain't seen by the user yet.
 
+
+    Load only Some msgs. If user scrools up then call a function which will load more until the  last msg
+
+
+    On double clicking a msg pop a confirmation dilog box confirming msg deletion 
 
 
 
