@@ -1,0 +1,42 @@
+.chat-main{
+    width: 400px;
+    height: 100px;
+    display: block;
+    margin: auto;
+    transition: ease-in .65s;
+}
+.img{
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    float: left;
+    padding: 0px;
+    line-height: 80px;
+    margin-top: 5px;
+}
+.info{
+    line-height: 80px;
+    margin-left: 20px;
+    float: none;
+}
+
+.smarthover:hover{
+    transition: linear .1s;
+    background: #00000045;
+}
+.activeuser{
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background: green;
+}
+.hidden{
+    display: none;
+}
+.c{
+    margin-top: 30px;
+    box-sizing: border-box;
+    box-shadow: 4px 3px 4px 5px #00000055 ;
+    height: 600px;
+    overflow: auto;
+}

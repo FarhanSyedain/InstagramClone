@@ -1,0 +1,71 @@
+{%extends 'main.htm'%}
+{%load static%}
+{%block content%}
+<div class="container-fluid bg-dark p-1 story-board">
+    <img class="story-img personal-story"  src="{%static 'usefull_images/anon.png' %}" >
+    <div class="friends-story-board" class="container-fluid">
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+        <a href="#"><img class="story-img friends-story"  src="{%static 'usefull_images/anon.png' %}" ></a> 
+    </div>
+    <a href="#"><i class="fa fa-send direct"></i></a>
+</div>
+<div class="container bg-light">
+    <div id="post1" style="margin: auto;" class="col-sm p-1 bg-light">
+        <span class="mb-2">Farhan Syedain | 2 June 2020</span><br>
+        <img src="{%static 'usefull_images/anon.png' %}" class="post-img" alt="">
+        <span> 20Likes <i id="like1"  style="font-size: 1.5em;"  class="fa non-like fa-heart like_buttons"></i> <i id="comment-btn1"   style="font-size: 1.5em;" class="fa fa-comments comment_button"></i> 
+             <i id="bookmark1"  style="font-size:1.5em ;" class="fa fa-bookmark book_marks marked"></i> <a href="#">View All 4 Comments</a>
+        </span>
+        <div id="comment1" class="hidden" >
+            <textarea id="commentdata1" class="form-control" placeholder="..." rows="2"></textarea>
+            <button id="addcomment1" style="margin: auto;display:block" class="btn btn-outline-success mt-1 mb-2 add_comments">Post</button>
+        </div>
+        <p id="half_caption1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ratione! <a id="full1" class="text-info full_cap "   >Read More</a></p>
+        <p class="hidden" id="full_caption1" >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam sed esse eligendi placeat ex, delectus enim quos nisi nostrum, aliquam aspernatur eos, vero velit. Vitae reiciendis neque natus beatae alias.</p>
+    </div>
+    <div id="post2" style="margin: auto;" class="col-sm p-1 bg-light">
+        <span class="mb-2">Farhan Syedain | 2 June 2020</span><br>
+        <img src="{%static 'usefull_images/anon.png' %}" class="post-img" alt="">
+        <span> 20Likes <i id="like2"  style="font-size: 1.5em;"  class="fa non-like fa-heart like_buttons"></i> <i id="comment-btn2"   style="font-size: 1.5em;" class="fa fa-comments comment_button"></i> 
+             <i id="bookmark2"  style="font-size:1.5em ;" class="fa fa-bookmark book_marks non-marked"></i> <a href="#">View All 4 Comments</a>
+        </span>
+        <div id="comment2" class="hidden" >
+            <textarea id="commentdata2" class="form-control" placeholder="..." rows="2"></textarea>
+            <button id="addcomment2" style="margin: auto;display:block" class="btn btn-outline-success mt-1 mb-2 add_comments">Post</button>
+        </div>
+        <p id="half_caption2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ratione! <a id="full2" class="text-info full_cap "   >Read More</a></p>
+        <p class="hidden" id="full_caption2" >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam sed esse eligendi placeat ex, delectus enim quos nisi nostrum, aliquam aspernatur eos, vero velit. Vitae reiciendis neque natus beatae alias.</p>
+    </div>
+    <div id="post3" style="margin: auto;" class="col-sm p-1 bg-light">
+        <span class="mb-2">Farhan Syedain | 2 June 2020</span><br>
+        <img src="{%static 'usefull_images/anon.png' %}" class="post-img" alt="">
+        <span> 20Likes <i id="like3"  style="font-size: 1.5em;"  class="fa non-like fa-heart like_buttons"></i> <i id="comment-btn3" style="font-size: 1.5em;" class="fa fa-comments comment_button"></i> 
+             <i id="bookmark3" style="font-size:1.5em ;" class="fa fa-bookmark book_marks non-marked"></i> <a href="#">No Comments yet</a>
+        </span>
+        <div id="comment3" class="hidden" >
+            <textarea id="commentdata3" class="form-control" placeholder="..." rows="2"></textarea>
+            <button id="addcomment3"  style="margin: auto;display:block" class="btn btn-outline-success mt-1 mb-2 add_comments">Post</button>
+        </div>
+        <p id="half_caption3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, ratione! <a id="full3" class="text-info full_cap "   >Read More</a></p>
+        <p class="hidden" id="full_caption3" >Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam sed esse eligendi placeat ex, delectus enim quos nisi nostrum, aliquam aspernatur eos, vero velit. Vitae reiciendis neque natus beatae alias.</p>
+    </div>
+    <div class="container bg-dark">
+        <br><br><br>
+        <h3 class="text-center">Follow More People To See More Posts </h3>
+        <br><br><br>
+
+    </div>
+    <br><br><br>
+</div>
+
+
+
+{%endblock%}

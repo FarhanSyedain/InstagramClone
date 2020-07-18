@@ -1,0 +1,118 @@
+.nav-bar{
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+.navigation-bar{
+    line-height: 80px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    top: 50%;
+}
+.navigation-bar li{
+    float: left;
+    margin:0px 90px;
+    list-style: none;
+}
+.navigation-bar li a{
+    font-size: 30px;
+    line-height: 80px;
+
+}
+.navigation-bar li a img{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-top: -5px;
+}
+
+
+.story-board{
+    height: 90px;
+    position: relative;
+    overflow-x: auto;
+}
+.story-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    line-height: 90px;
+    float: left;
+    position: relative;
+}
+.personal-story{
+    margin-right: 40px;
+}
+.friends-story-board{
+    margin-left: 120px;
+    width: 1000px;
+    position: absolute;
+    float: left;
+    overflow-x: auto;
+    overflow-y: none;
+}
+.friends-story{
+    float: left;
+    margin: 0px 10px;
+}
+.direct{
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    
+}
+.col-sm,.post-img{
+    display: block;
+    width: 500px;
+
+}
+.non-like{
+    color: gray;
+}
+.like{
+    color: red;
+}
+.hidden{
+    display: none;
+}
+.non-marked{
+    color: gray;
+}
+.marked{
+    color: black;
+}
+.img-profile{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin-right: 10px;
+    margin-left: 10px;
+    float: left;
+}
+.t{
+    height: 60px;
+    padding: 5px;
+}
+
+.c{
+    line-height: 50px;
+}
+.msg, .msg_{
+    width: 250px;
+    border-radius: 20px;
+    padding: 4px;
+}
+.msg_{
+    position: relative;
+    left: 300px;
+    background: rgba(218, 53, 108, 0.438);
+}
+.msg{
+    background: #00000043;
+}
