@@ -1,4 +1,5 @@
 # Change settings in .vscode 
+# My editor got a bug, it does'nt recognise HTML as an extention add htm extention to html files
 InstagramClone
 pip install Django
 cd to BASE Dir and run   py manage.py runserver
