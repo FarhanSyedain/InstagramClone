@@ -1,0 +1,86 @@
+{%extends 'main.htm' %}
+{%load static%}
+{%block content%}
+    <div class="container-fluid p-2 bg-dark">
+        <h4 class="text-center text-light">Notifications</h4>
+    </div>
+    <div style="width: 700px;" class="container   p-2">
+        <div id="1" style="width: 700px;border-bottom:10px solid black" class="col-sm bg-light p-1">
+            <div style="height: 80px;width:700px"  class="header-not">
+                <img class="profile-not" style="float:left;line-height: 80px;margin-right:5px" src="{%static  'usefull_images/anon.png' %}">
+                <p style="line-height: 80px;"><a href="#">@FarhanSyedain</a> replied on your comment | 3h  <i id="delete1" class="fa fa-trash"></i>  </p>
+            </div>
+            Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui, voluptates accusamus quam omnis alias odit doloribus dicta reiciendis delectus repellendus vero facilis tempore hic assumenda eligendi quod aliquid maiores architecto, amet, veniam mollitia vitae quis. Dicta eaque iste rem earum! dol Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, inventore omnis. At rerum dolore quidem facilis, error nostrum minima voluptatum tempore minus debitis a ea, fugiat, aperiam architecto laborum aliquid. or sit amet consectetur adipisicing elit. Quasi doloribus ipsa labore, accusantium ad similique expedita eaque soluta velit repudiandae voluptas vitae tenetur porro magnam adipisci voluptatum nobis? Vel, praesentium?
+        </div>
+        <div id="2" style="width: 700px;border-bottom:10px solid black" class="col-sm bg-light p-1">
+            <div style="height: 80px;width:700px"  class="header-not">
+                <img class="profile-not-stroy" style="float:left;line-height: 80px;margin-right:5px" src="{%static  'usefull_images/anon.png' %}">
+                <p style="line-height: 80px;"><a href="#">@FarhanSyedain</a> replied on your comment | 5d <i id="delete2" class="fa fa-trash"></i> </p>
+            </div>
+            Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui, voluptates accusamus quam omnis alias odit doloribus dicta reiciendis delectus repellendus vero facilis tempore hic assumenda eligendi quod aliquid maiores architecto, amet, veniam mollitia vitae quis. Dicta eaque iste rem earum! dol Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, inventore omnis. At rerum dolore quidem facilis, error nostrum minima voluptatum tempore minus debitis a ea, fugiat, aperiam architecto laborum aliquid. or sit amet consectetur adipisicing elit. Quasi doloribus ipsa labore, accusantium ad similique expedita eaque soluta velit repudiandae voluptas vitae tenetur porro magnam adipisci voluptatum nobis? Vel, praesentium?
+        </div>
+        <div id="3" style="width: 700px;border-bottom:10px solid black" class="col-sm bg-light p-1">
+            <div style="height: 80px;width:700px"  class="header-not">
+                <img class="profile-not-stroy" style="float:left;line-height: 80px;margin-right:5px;" src="{%static  'usefull_images/anon.png' %}">
+                <p style="line-height: 80px;float:left;"><a href="#">@FarhanSyedain</a> Liked Your Post | 4h <i id="delete3" class="fa fa-trash"></i> </p>
+                <img style="line-height:80px;margin-left:30px;border-radius:0px" src="{%static  'usefull_images/anon.png' %}" class="profile-not" >
+            </div>
+        </div>
+        <div id="4" style="width: 700px;border-bottom:10px solid black" class="col-sm bg-light p-1">
+            <div style="height: 80px;width:700px"  class="header-not">
+                <img class="profile-not-stroy" style="float:left;line-height: 80px;margin-right:5px;" src="{%static  'usefull_images/anon.png' %}">
+                <p style="line-height: 80px;"><a href="#">@FarhanSyedain</a> Started Following You | 4h <i id="delete4"  class="fa fa-trash "></i> </p>
+            </div>
+        </div>
+        <div id="5" style="width: 700px;border-bottom:10px solid black" class="col-sm bg-light p-1">
+            <div style="height: 80px;width:700px"  class="header-not">
+                <img class="profile-not" style="float:left;line-height: 80px;margin-right:5px" src="{%static  'usefull_images/anon.png' %}">
+                <p style="line-height: 80px;"><a href="#">@FarhanSyedain</a> mentioned you in a comment | 3h <i id="delete5"   class="fa fa-trash "></i>  </p>
+            </div>
+            Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui, voluptates accusamus quam omnis alias odit doloribus dicta reiciendis delectus repellendus vero facilis tempore hic assumenda eligendi quod aliquid maiores architecto, amet, veniam mollitia vitae quis. Dicta eaque iste rem earum! dol Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta, inventore omnis. At rerum dolore quidem facilis, error nostrum minima voluptatum tempore minus debitis a ea, fugiat, aperiam architecto laborum aliquid. or sit amet consectetur adipisicing elit. Quasi doloribus ipsa labore, accusantium ad similique expedita eaque soluta velit repudiandae voluptas vitae tenetur porro magnam adipisci voluptatum nobis? Vel, praesentium?
+        </div>
+    </div>
+    <div  class="container-fluid bg-white p-2">
+        <br><br><br>
+        <br><br><br><br><br><br><br>
+    </div >
+
+    
+<script>
+
+    deletebuttons = document.getElementsByClassName('fa-trash')
+
+    for (var i = 0; i < deletebuttons.length; i++){
+        
+        deletebuttons[i].addEventListener('dblclick',function(e){
+            e.preventDefault()
+
+            id = this.id.split('delete')[1]  //id of every icon is delete and the id of the notification 
+ 
+
+            document.getElementById(id).outerHTML = ''
+
+            delete_notification(id)
+
+        })
+
+    }
+
+
+
+function delete_notification(){
+    
+    //later define in js file    #For comunicating with backend
+
+}
+
+</script>
+
+{%endblock%}
+<!-- 
+
+
+
+
+
+ -->

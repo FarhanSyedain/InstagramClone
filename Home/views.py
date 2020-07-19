@@ -9,3 +9,9 @@ def test_chat_main_template(request):
 
 def test_detail(request):
     return render(request,'chat/detail.htm')
+
+def test_not(request):
+    return render(request,'notification/notification.htm')
+
+def test_profile(request):
+    return render(request,'profile/profile.htm')

@@ -116,3 +116,19 @@
 .msg{
     background: #00000043;
 }
+.profile-not{
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+}
+.profile-not-stroy{
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    padding: 2px;
+    border: 2px solid rgb(53, 190, 29);
+}
+.fa-trash:hover{
+    font-size: 1.2em;
+    color: red;
+}
