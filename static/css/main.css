@@ -72,6 +72,9 @@
     width: 500px;
 
 }
+.post-img{
+    margin-left: -5px;
+}
 .non-like{
     color: gray;
 }
@@ -144,4 +147,48 @@
 .profile-container{
     width: 200px;
     height: fit-content;
+}
+.post-detail-img{
+    width: 450px;
+    height: 450px;
+}
+.rounded-border{
+    border-radius: 100%;
+}
+
+
+
+.img-container {
+
+    display: block;
+    width: 550px;
+    height: 550px;
+    
+}  
+.comment-stuff{
+    float: right;
+    display: block;
+    width: 550px;
+    height: 550px;
+    background: rgb(255, 255, 255);
+}
+.img-imgimg{
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.www{
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space:pre-wrap;
+    max-width: 1100px;
+}
+.image-com{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
 }

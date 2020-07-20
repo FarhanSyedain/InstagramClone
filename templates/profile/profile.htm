@@ -1,6 +1,13 @@
 {%extends 'main.htm' %}
 {%load static%}
 {%block content%}
+<style>
+    @media only screen and (min-width: 600px) {
+        #postss {
+            width:60%;
+        }
+    }
+</style>
     <div style="height: 300px;width:100%;" class="container-fluid bg-light p-2">
         <div style="float: left;" class="profile-container">
             <img src="{%static 'usefull_images/anon.png'%}" class="profile-pic-p">
@@ -25,9 +32,8 @@
             </div>
 
         </div>
-        <div id="posts" class="section_   bg-info">
-            <br><br><br><br>
-            <br><br><br><br>
+        <div id="posts" class=" bg-info py-5 section_">
+            <div id="postss" style="margin-right: auto; margin-left: auto;" id="posts" class="d-flex  flex-wrap" ></div>
         </div>
 
         <div id="tagged" class="section_ hidden bg-danger">
@@ -51,5 +57,12 @@
         }
         document.getElementById(ty).classList.remove('hidden')
     }
+    posts = ['anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png',]
+    for (post of posts) {
+        console.log(post)
+        postcode = ('<div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src=' + "{%static 'usefull_images/anon.png'%}" + '></div>')
+        document.getElementById("postss").innerHTML += postcode
+    }
 </script>
+<br><br><br><br><br>
 {%endblock%}

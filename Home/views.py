@@ -15,3 +15,10 @@ def test_not(request):
 
 def test_profile(request):
     return render(request,'profile/profile.htm')
+
+def posts(request):
+    return render(request,'posts.htm')
+
+def test_detail_post(request):
+    return render(request,'main/post_detail.htm')
+
