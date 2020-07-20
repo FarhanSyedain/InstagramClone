@@ -104,7 +104,45 @@ for (var i = 0;  i < all_read_mores.length; i++){
 }
 
 
+var all_reply_buttons = document.getElementsByClassName('rep')
 
+for(var i = 0; i < all_reply_buttons.length; i++){
+    rep_btn = all_reply_buttons[i]
+    rep_btn.addEventListener('click',function(){
+       
+        reply(this.id,this.dataset.user,this)
+    })
+
+}
+
+
+
+function reply(userid,username,btn){
+
+    var comment_box =  document.getElementById('ReplyBox')
+    console.log(userid)
+    if (btn.dataset.default == 'none'){
+
+
+        comment_box.focus()
+        comment_box.value = ''
+        comment_box.setAttribute('data-user','-1')   //since all you userids in database are gonna be positive, if we have a negitive 
+        //id while sending data to backend that means we are not repliing to a specific user
+
+        comment_box.setAttribute('data-default','none')   
+        
+        
+    }else{
+
+
+        comment_box.value = '@'+ username + ' '
+        comment_box.focus()
+        comment_box.setAttribute('data-user',userid)
+        comment_box.setAttribute('data-default','BTN')      
+
+    }
+
+}
 
 // For comunacating with backend 
 

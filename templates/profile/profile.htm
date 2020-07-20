@@ -57,12 +57,15 @@
         }
         document.getElementById(ty).classList.remove('hidden')
     }
+
+    
     posts = ['anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png',]
     for (post of posts) {
-        console.log(post)
         postcode = ('<div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src=' + "{%static 'usefull_images/anon.png'%}" + '></div>')
         document.getElementById("postss").innerHTML += postcode
     }
+
+
 </script>
-<br><br><br><br><br>
+<br><br><br><br><br> 
 {%endblock%}
