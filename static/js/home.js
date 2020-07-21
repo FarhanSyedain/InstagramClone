@@ -1,11 +1,11 @@
 //JS for home page
 
 //Frontend
-var all_like_buttons = document.getElementsByClassName('like_buttons')//All Like Buttons
+var all_like_buttons = document.getElementsByClassName('like_buttons') //All Like Buttons
 
-for (var j = 0; j < all_like_buttons.length; j++ ){
-    all_like_buttons[j].addEventListener('click',function(e){
-        if (this.classList.contains('non-like')){
+for (var j = 0; j < all_like_buttons.length; j++) {
+    all_like_buttons[j].addEventListener('click', function(e) {
+        if (this.classList.contains('non-like')) {
             this.classList.add('like')
             this.classList.remove('non-like')
 
@@ -13,11 +13,11 @@ for (var j = 0; j < all_like_buttons.length; j++ ){
 
             like_post(id) //Function Likes or unlikes a post
 
-        }else{
+        } else {
             this.classList.remove('like')
             this.classList.add('non-like')
 
-            id = this.id.split('like')[1]//Will return the id of the post 
+            id = this.id.split('like')[1] //Will return the id of the post 
 
             like_post(id)
         }
@@ -27,24 +27,24 @@ for (var j = 0; j < all_like_buttons.length; j++ ){
 
 var all_book_marks = document.getElementsByClassName('book_marks')
 
-for (var i = 0; i < all_book_marks.length; i++){
-    all_book_marks[i].addEventListener('click',function(e){
+for (var i = 0; i < all_book_marks.length; i++) {
+    all_book_marks[i].addEventListener('click', function(e) {
 
-        if (this.classList.contains('non-marked')){
+        if (this.classList.contains('non-marked')) {
             this.classList.add('marked')
             this.classList.remove('non-marked')
 
-            id = this.id.split('bookmark')[1]//Will return the id of the post 
+            id = this.id.split('bookmark')[1] //Will return the id of the post 
 
             bookmark_post(id)
 
-        }else{
+        } else {
             this.classList.remove('marked')
             this.classList.add('non-marked')
 
-            id = this.id.split('bookmark')[1]//Will return the id of the post 
+            id = this.id.split('bookmark')[1] //Will return the id of the post 
 
-            bookmark_post(id)
+            bookmark_post(id) //Function will comunicate with backend
 
         }
     })
@@ -52,19 +52,21 @@ for (var i = 0; i < all_book_marks.length; i++){
 
 var all_comment_btns = document.getElementsByClassName('comment_button')
 
-for (var i = 0; i < all_comment_btns.length; i++){
-    all_comment_btns[i].addEventListener('click',function(e){
-        
+for (var i = 0; i < all_comment_btns.length; i++) {
+    all_comment_btns[i].addEventListener('click', function(e) {
+
         id = this.id.split('comment-btn')[1]
 
         x = 'comment' + id
         var comment_box = document.getElementById(x)
-        
 
-        if (comment_box.classList.contains('hidden')){
+
+        if (comment_box.classList.contains('hidden')) {
+
             comment_box.classList.remove('hidden')
 
-        }else{
+        } else {
+
             comment_box.classList.add('hidden')
 
         }
@@ -72,16 +74,15 @@ for (var i = 0; i < all_comment_btns.length; i++){
 }
 
 var all_post_comment_buttons = document.getElementsByClassName('add_comments')
+for (var i = 0; i < all_post_comment_buttons.length; i++) {
 
-for (var i = 0; i < all_post_comment_buttons.length; i++){
-
-    all_post_comment_buttons[i].addEventListener('click',function(e){
+    all_post_comment_buttons[i].addEventListener('click', function(e) {
 
         id = this.id.split('addcomment')[1]
 
-        var comment_data = document.getElementById('commentdata'+id)
+        var comment_data = document.getElementById('commentdata' + id)
 
-        add_comment(comment_data,id)
+        add_comment(comment_data, id)
 
     })
 
@@ -90,9 +91,9 @@ for (var i = 0; i < all_post_comment_buttons.length; i++){
 
 var all_read_mores = document.getElementsByClassName('full_cap')
 
-for (var i = 0;  i < all_read_mores.length; i++){
+for (var i = 0; i < all_read_mores.length; i++) {
 
-    all_read_mores[i].addEventListener('click',function(e){
+    all_read_mores[i].addEventListener('click', function(e) {
 
         id = this.id.split('full')[1]
 
@@ -103,42 +104,48 @@ for (var i = 0;  i < all_read_mores.length; i++){
 
 }
 
+//Js for Home ends
+
+//Js for Other pages
 
 var all_reply_buttons = document.getElementsByClassName('rep')
 
-for(var i = 0; i < all_reply_buttons.length; i++){
+for (var i = 0; i < all_reply_buttons.length; i++) {
     rep_btn = all_reply_buttons[i]
-    rep_btn.addEventListener('click',function(){
-       
-        reply(this.id,this.dataset.user,this)
+    rep_btn.addEventListener('click', function() {
+
+        reply(this.id, this.dataset.user, this)
     })
 
 }
 
 
 
-function reply(userid,username,btn){
+function reply(userid, username, btn) {
 
-    var comment_box =  document.getElementById('ReplyBox')
+    var comment_box = document.getElementById('ReplyBox')
     console.log(userid)
-    if (btn.dataset.default == 'none'){
+    if (btn.dataset.default == 'none') {
 
 
         comment_box.focus()
         comment_box.value = ''
-        comment_box.setAttribute('data-user','-1')   //since all you userids in database are gonna be positive, if we have a negitive 
-        //id while sending data to backend that means we are not repliing to a specific user
-
-        comment_box.setAttribute('data-default','none')   
-        
-        
-    }else{
+        comment_box.setAttribute('data-user', '-1') //since all you userids in database are gonna be positive, if we have a negitive 
+            //id while sending data to backend that means we are not repliing to a specific user and the comment is shown globally ie in all 
+            //comments
 
 
-        comment_box.value = '@'+ username + ' '
+        comment_box.setAttribute('data-default', 'none')
+
+
+    } else {
+
+
+        comment_box.value = '@' + username + ' '
         comment_box.focus()
-        comment_box.setAttribute('data-user',userid)
-        comment_box.setAttribute('data-default','BTN')      
+        comment_box.setAttribute('data-user', userid)
+        comment_box.setAttribute('data-default', 'BTN')
+
 
     }
 
@@ -146,15 +153,15 @@ function reply(userid,username,btn){
 
 // For comunacating with backend 
 
-function like_post(p_id){
+function like_post(p_id) {
 
-}  
+}
 
-function bookmark_post(p_id){
+function bookmark_post(p_id) {
 
 
 }
 
-function add_comment(data,p_id){
+function add_comment(data, p_id) {
 
 }
