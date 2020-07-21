@@ -1,0 +1,7 @@
+The stuff that is to be designed is mentioned in readme.txt
+
+Some points:
+    In the add Post page:
+        when user selects a pic display the pic on the screen;user should be able to
+        crop the image their --where width and height are equal-- and upload their
+    If possible when user scrools down after seeing the last post or msg, call a function
