@@ -5,7 +5,7 @@ All pages required:
     Chat Overview  -->Done add a preloader
     Chat Details  --> *2   ->> New msg will appear on the top
     Post Details --> Done
-    Edit Profile  --> To be added   ->
+    Edit Profile  --> To be added   -> Adding
     Search Users // if possible add in top nav 
     all Followers/Following pages --> Done (actually mingled it with profile page)  *2
     Saved Posts Page --> Done *2
