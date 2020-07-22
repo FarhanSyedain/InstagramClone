@@ -23,4 +23,5 @@ def test_detail_post(request):
     return render(request,'main/post_detail.htm')
 
 def test_ff(request):
-    return render(request,'profile/followers_folloiwing.htm')
+    return render(request,'profile/edit_profile.htm')
+

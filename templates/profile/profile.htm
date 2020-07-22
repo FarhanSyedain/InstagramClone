@@ -11,14 +11,18 @@
         <img src="{%static 'usefull_images/anon.png'%}" class="profile-pic-p">
     </div>
     <div class="profile-info">
-        <b>FarhanSyedain</b> | <i>@fSyedain</i><br>
-        <span>123 Followers | 32 Posts | 22 Following </span> <br>
-        <button class="btn btn-outline-info">Follow</button>
-        <!--<button class="btn btn-outline-info" >Follow Back</button>   -->
-        <!--  <button class="btn btn-info" >Unfollow</button>-->
-        <!--  <a href="#">Edit Profile <i class="fa fa-gear"></i></a> -->
+        <b>{{user}}</b> | <i>@{{user.username}}</i><br>
+        <span>{{total_followers}} Followers | {{total_posts}} Posts | {{total_following}} Following </span> <br> {%if is_owner%}
+        <a href="#">Edit Profile <i class="fa fa-gear"></i></a> {%elif user_follows %}
+        <button class="btn btn-info">Unfollow</button> {%elif not user_follows and profile_user_follows %}
+        <button class="btn btn-outline-info">Follow Back</button> {%elif not user_follows and not profile_user_follows and not is_owner %}
+        <button class="btn btn-outline-info">Follow</button> {%endif%}
+
     </div>
 </div>
+
+{%if is_owner or show %}
+
 <div class="container-fluid p-0">
     <div class="div container-fluid bg-dark">
         <div style="position:relative;height:80px" class="container  p-2">
@@ -30,14 +34,11 @@
                 <button id="following_btn" onclick="open_sec('following')" class="btn btn-light">Following</button>
             </div>
         </div>
-
     </div>
 
     <div id="posts" class="  py-5 section_">
-        <div id="postss" style="margin-right: auto; margin-left: auto;" id="posts" class="d-flex  flex-wrap">
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
+
+        <div id="postss" style="margin-right: auto; margin-left: auto;" class="d-flex  flex-wrap">
         </div>
     </div>
 
@@ -115,10 +116,18 @@
             <a href="#" class="follower-link" href="#">Sfarhan</a>
         </div>
     </div>
-
 </div>
+{%else%}
+<h1>The Account is Private</h1>
+{%endif%}
+
 
 <script>
+    var total_posts = '{{total_posts}}'
+    var backend_js_file_loc = "{%static 'js/backend.js' %}"
+    var home_js_file_loc = "{%static 'js/home.js' %}"
+
+
     function open_sec(ty) {
         var sections = document.getElementsByClassName('section_')
 
@@ -142,4 +151,5 @@
     //document.getElementById("postss").innerHTML += postcode
     //}
 </script>
+<script src="{%static 'js/profile.js' %}"></script>
 <br><br><br><br><br> {%endblock%}

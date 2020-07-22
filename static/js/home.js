@@ -1,5 +1,18 @@
 //JS for home page
 
+function include(file) {
+
+    var script = document.createElement('script');
+    script.src = file;
+    script.type = 'text/javascript';
+    script.defer = true;
+
+    document.getElementsByTagName('head').item(0).appendChild(script);
+
+}
+include('../static/js/backend.js')
+
+
 //Frontend
 var all_like_buttons = document.getElementsByClassName('like_buttons') //All Like Buttons
 
@@ -151,17 +164,4 @@ function reply(userid, username, btn) {
 
 }
 
-// For comunacating with backend 
-
-function like_post(p_id) {
-
-}
-
-function bookmark_post(p_id) {
-
-
-}
-
-function add_comment(data, p_id) {
-
-}
+// For comunacating with backend
