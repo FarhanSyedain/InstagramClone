@@ -32,13 +32,23 @@ urlpatterns = [
     #Real paths
     
     path('<str:username>/',Others.profile_page,name='profile_page'),
-    path('profile/api/get/data/posts/',Others.get_posts,name='API_get_posts')
     
     
+    
+    
+    #API paths
+    path('profile/api/get/data/posts/',Others.get_posts,name='API_get_posts'),
+    path('profile/api/get/data/tagged/posts/',Others.get_tagged,name='API_get_posts'),
+    path('profile/api/get/data/bookmarks/posts/',Others.get_bookmarks,name='API_get_book_marks'),
+    path('profile/api/get/data/following/users/',Others.get_following,name='API_get_following'),
+    path('profile/api/get/data/followers/users/',Others.get_followers,name='API_get_followers'),
     
 ]
 
+
+
+
 if DEBUG:
-    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
 

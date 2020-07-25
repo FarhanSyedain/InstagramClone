@@ -1,7 +1,7 @@
 {%extends 'main.htm' %} {%load static%} {%block content%}
 <style>
     @media only screen and (min-width: 600px) {
-        #postss {
+        .smaller {
             width: 60%;
         }
     }
@@ -36,85 +36,29 @@
         </div>
     </div>
 
-    <div id="posts" class="  py-5 section_">
-
-        <div id="postss" style="margin-right: auto; margin-left: auto;" class="d-flex  flex-wrap">
+    <div id="posts" class=" bg-dark py-5 section_">
+        <div id="postss" style="margin-right: auto; margin-left: auto;" class="d-flex smaller  flex-wrap">
         </div>
+        <button onclick="load_more_posts()" id="load_more_btn" class="btn btn-outline-success hidden ">Load More</button>
     </div>
 
     <div id="tagged" class="section_ hidden py-5">
-        <div id="postss" style="margin-right: auto; margin-left: auto;" class="d-flex  flex-wrap">
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
+        <div id="tagged_posts" style="margin-right: auto; margin-left: auto;" class="d-flex smaller flex-wrap">
         </div>
+        <button id="load_more_tagged" onclick="load_more_tagged_posts()" class="btn btn-outline-success">Load More</button>
     </div>
 
     <div id="highlights" class="section_ hidden  py-5">
-        <div id="postss" style="margin-right: auto; margin-left: auto;transition:ease-in .3s" class="d-flex  flex-wrap">
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
-            <div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src="{%static 'usefull_images/anon.png'%}"></div>
+        <div id="book_marks_" style="margin-right: auto; margin-left: auto;transition:ease-in .3s" class="d-flex smaller  flex-wrap">
         </div>
+        <button id="load_more_bookmarks" onclick="load_bookmarks()" class="btn btn-outline-info">Load More</button>
     </div>
 
     <div id="followers" style="width: 400px;" class="section_ hidden container p-2">
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <i class="remove-follower fa fa-close"></i>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <i class="remove-follower fa fa-close"></i>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <i class="remove-follower fa fa-close"></i>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <i class="remove-follower fa fa-close"></i>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
+
     </div>
 
     <div id="following" style="width: 400px;" class="section_ hidden container p-2 ">
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <button class="btn btn-info remove-following">Unfollow</button>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <button class="btn btn-info remove-following">Unfollow</button>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <button class="btn btn-info remove-following">Unfollow</button>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
-        <div style="display: block;margin:auto" class="follower bg-light p-2">
-            <img src="{%static 'usefull_images/anon.png' %}" class="img-follower">
-            <a class="follower-name">Farhan Syedain</a><br>
-            <button class="btn btn-info remove-following">Unfollow</button>
-            <a href="#" class="follower-link" href="#">Sfarhan</a>
-        </div>
     </div>
 </div>
 {%else%}
@@ -123,6 +67,8 @@
 
 
 <script>
+    var user = '{{user.username}}'
+    console.log(user)
     var total_posts = '{{total_posts}}'
     var backend_js_file_loc = "{%static 'js/backend.js' %}"
     var home_js_file_loc = "{%static 'js/home.js' %}"
@@ -134,7 +80,6 @@
         for (var i = 0; i < sections.length; i++) {
             sections[i].classList.add('hidden')
             Element_ = sections[i].id + '_btn'
-            console.log(Element_)
             document.getElementById(Element_).classList.remove('bg-success')
 
         }
@@ -147,7 +92,7 @@
 
     //posts = ['anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', ]
     //for (post of posts) {
-    //postcode = ('<div style="min-width:33%" class="post p-1"><img style="width:100%; height:100%; margin-right:auto; margin-left:auto" src=' + "{%static 'usefull_images/anon.png'%}" + '></div>')
+    //postcode = ('<div style="min-width:33%" class="post p-1"><img style="width:300px; height:100%; margin-right:auto; margin-left:auto" src=' + "{%static 'usefull_images/anon.png'%}" + '></div>')
     //document.getElementById("postss").innerHTML += postcode
     //}
 </script>

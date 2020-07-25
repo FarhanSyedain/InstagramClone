@@ -16,22 +16,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken'); //I copied it from somewhere
-
-
-
-
-
-function get_posts() {
-    console.log('Called me')
-    return { 'last': false, 'posts': ['f', 'f', 'f'] }
-
-}
-
-
-
-
-
+var csrftoken = getCookie('csrftoken');
 
 
 
