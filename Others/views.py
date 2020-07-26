@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseBadRequest
 
 from Configrations.models import Post,Followers,Following,Profile,User,Tagged,BookMark
+from Configrations.utilts import remove_follower
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -54,7 +55,6 @@ def profile_page(request,username):
         
         return render(request,'profile/profile.htm',content)
     
-
 
 @api_view(['GET','POST'])
 def get_posts(request):#For posts of user in User Profile
@@ -223,9 +223,9 @@ def get_following(request):
             users_following = {}
             for user_ in list(following)[deliverd:deliverd+per_call]:
                 if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.profile_picture.url}',f'{user_.username}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
                 else:
-                    users_following.update({f'{user_}':[f'{user_.profile_picture.url}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}']})
 
             has_more = True
             
@@ -241,15 +241,16 @@ def get_following(request):
             
             for user_ in list(following)[deliverd:]:
                 if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.photo.profile_picture.url}',f'{user_.username}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.photo.profile_picture.url}',f'{user_.username}']})
                 else:
-                    users_following.update({f'{user_}':[f'{user_.photo.profile_picture.url}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.photo.profile_picture.url}']})
                     
                     
             others = {'has_more':False,'deliverd':deliverd+len(list(following)[deliverd:])}
             to_be_returned = {'following':users_following,'is_following_anyone':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
+
 
 @api_view(['POST','GET'])
 def get_followers(request):
@@ -275,9 +276,9 @@ def get_followers(request):
             users_following = {}
             for user_ in list(followers)[deliverd:deliverd+per_call]:
                 if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.profile_picture.url}',f'{user_.username}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
                 else:
-                    users_following.update({f'{user_}':[f'{user_.profile_picture.url}']})
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}']})
 
             has_more = True
             
@@ -302,6 +303,64 @@ def get_followers(request):
             to_be_returned = {'following':users_following,'is_followed':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
+
+
+@api_view(['POST','GET'])
+def remove_following(request):
+    
+    data = request.data
+    
+    user_to_be_removed = data['username']
+    to_be_removed_from = data['user']
+    user = request.user
+    if request.user.is_authenticated and str(user) == str(to_be_removed_from):
+        
+        user_to_be_removed = User.objects.get(username=user_to_be_removed)
+        to_be_removed_from = User.objects.get(username=to_be_removed_from)
+        
+        removed_user = remove_follower(to_be_removed_from,user_to_be_removed)
+        return JsonResponse({'success':removed_user,'id':Profile.objects.get(username=user_to_be_removed).id},safe=False)
+        
+    return HttpResponseBadRequest('Detected data minuplitaion')
+
+
+@api_view(['POST','GET'])
+def remove_followers(request):
+    
+    data = request.data
+    
+    user_to_be_removed = data['username']
+    to_be_removed_from = data['user']
+    user = request.user
+    if request.user.is_authenticated and str(user) == str(to_be_removed_from):
+        
+        user_to_be_removed = User.objects.get(username=user_to_be_removed)
+        to_be_removed_from = User.objects.get(username=to_be_removed_from)
+        
+        remove_user = remove_follower(to_be_removed_from,user_to_be_removed)
+        return JsonResponse({'success':remove_user,'id':Profile.objects.get(username=user_to_be_removed).id},safe=False)
+
+    return HttpResponseBadRequest('Detected data minuplitaion')
+
+
+
+
+@api_view(['POST','GET'])
+def get_following_count(request):
+    
+    data = request.data
+    
+    user = User.objects.get(username=data['user'])
+    return JsonResponse({'count':Following.objects.get(user=user).following.count()},safe=False)
+
+
+@api_view(['POST','GET'])
+def get_followers_count(request):
+    
+    data = request.data
+    
+    user = User.objects.get(username=data['user'])
+    return JsonResponse({'count':Followers.objects.get(user=user).followers.count()},safe=False)
 
 
 def is_following(user,whom):

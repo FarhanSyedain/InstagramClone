@@ -42,6 +42,11 @@ urlpatterns = [
     path('profile/api/get/data/bookmarks/posts/',Others.get_bookmarks,name='API_get_book_marks'),
     path('profile/api/get/data/following/users/',Others.get_following,name='API_get_following'),
     path('profile/api/get/data/followers/users/',Others.get_followers,name='API_get_followers'),
+    path('profile/api/get/data/remove/following/',Others.remove_following,name='API_remove_following'),
+    path('profile/api/get/data/remove/follower/',Others.remove_followers,name='API_remove_follower'),
+    path('profile/api/get/data/get/following/count',Others.get_following_count,name='API_get_following_count'),
+    path('profile/api/get/data/get/followers/count',Others.get_followers_count,name='API_get_followers_count'),
+    
     
 ]
 

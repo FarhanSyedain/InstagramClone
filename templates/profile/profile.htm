@@ -12,7 +12,7 @@
     </div>
     <div class="profile-info">
         <b>{{user}}</b> | <i>@{{user.username}}</i><br>
-        <span>{{total_followers}} Followers | {{total_posts}} Posts | {{total_following}} Following </span> <br> {%if is_owner%}
+        <span>{{total_followers}} Followers | {{total_posts}} Posts | <span id="__following__count">{{total_following}}</span> Following </span> <br> {%if is_owner%}
         <a href="#">Edit Profile <i class="fa fa-gear"></i></a> {%elif user_follows %}
         <button class="btn btn-info">Unfollow</button> {%elif not user_follows and profile_user_follows %}
         <button class="btn btn-outline-info">Follow Back</button> {%elif not user_follows and not profile_user_follows and not is_owner %}
@@ -68,7 +68,7 @@
 
 <script>
     var user = '{{user.username}}'
-    console.log(user)
+    var req_user = '{{request.user}}'
     var total_posts = '{{total_posts}}'
     var backend_js_file_loc = "{%static 'js/backend.js' %}"
     var home_js_file_loc = "{%static 'js/home.js' %}"
@@ -87,14 +87,6 @@
         Element_ = ty + '_btn'
         document.getElementById(Element_).classList.add('bg-success')
     }
-
-    //We will use this isntead of jinja loops 
-
-    //posts = ['anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', 'anon.png', ]
-    //for (post of posts) {
-    //postcode = ('<div style="min-width:33%" class="post p-1"><img style="width:300px; height:100%; margin-right:auto; margin-left:auto" src=' + "{%static 'usefull_images/anon.png'%}" + '></div>')
-    //document.getElementById("postss").innerHTML += postcode
-    //}
 </script>
 <script src="{%static 'js/profile.js' %}"></script>
 <br><br><br><br><br> {%endblock%}
