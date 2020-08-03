@@ -10,7 +10,7 @@ function include(file) {
     document.getElementsByTagName('head').item(0).appendChild(script);
 
 }
-include('../static/js/backend.js')
+
 
 
 //Frontend
@@ -24,7 +24,7 @@ for (var j = 0; j < all_like_buttons.length; j++) {
 
             id = this.id.split('like')[1]
 
-            like_post(id) //Function Likes or unlikes a post
+
 
         } else {
             this.classList.remove('like')
@@ -32,7 +32,7 @@ for (var j = 0; j < all_like_buttons.length; j++) {
 
             id = this.id.split('like')[1] //Will return the id of the post 
 
-            like_post(id)
+
         }
     })
 }
@@ -49,7 +49,7 @@ for (var i = 0; i < all_book_marks.length; i++) {
 
             id = this.id.split('bookmark')[1] //Will return the id of the post 
 
-            bookmark_post(id)
+
 
         } else {
             this.classList.remove('marked')
@@ -57,7 +57,7 @@ for (var i = 0; i < all_book_marks.length; i++) {
 
             id = this.id.split('bookmark')[1] //Will return the id of the post 
 
-            bookmark_post(id) //Function will comunicate with backend
+
 
         }
     })
@@ -95,7 +95,7 @@ for (var i = 0; i < all_post_comment_buttons.length; i++) {
 
         var comment_data = document.getElementById('commentdata' + id)
 
-        add_comment(comment_data, id)
+
 
     })
 
@@ -137,7 +137,7 @@ for (var i = 0; i < all_reply_buttons.length; i++) {
 function reply(userid, username, btn) {
 
     var comment_box = document.getElementById('ReplyBox')
-    console.log(userid)
+
     if (btn.dataset.default == 'none') {
 
 

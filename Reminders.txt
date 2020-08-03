@@ -1,0 +1,24 @@
+For profile Page:
+    Add Some load more buttons
+    Fix Per_call Functionality
+    Add Comments
+    Add Rest_followers Functionality
+    Edit Profile Page // Create Later and ask Aprameya for help
+    Add buttons According to User Visiting -- wheather it is owner or visiter -- also check if profile is Private
+    Add Functionality To get_followers and get_following which allows the function to retun sevrel more attributed that \n
+    depict where user follows or doesnt follow a spefic user
+    
+
+Detail Post:
+    Some frontend  
+
+
+
+###Chage All Follow And Unfollow Functions
+###Add More functions
+###For every action on buttons add a function -- do not try to reduce lines of code
+###Reducing Lines of Code Might Cause 100 More Bugs
+
+###ADD Comments For Better Understanding 
+### Change almost Every BTN related function
+

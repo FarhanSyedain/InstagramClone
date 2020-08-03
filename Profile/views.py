@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import JsonResponse,HttpResponseBadRequest
 
-from Configrations.models import Post,Followers,Following,Profile,User,Tagged,BookMark
-from Configrations.utilts import remove_follower
+from Configrations.models import Post,Followers,Following,Profile,User,Tagged,BookMark,FollowRequestMassage
+from Configrations.utilts import remove_follower,is_following,get_extra_info
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -26,11 +26,21 @@ def profile_page(request,username):
         
         profile_user_follows = is_following(user.user,request.user)
             
+        requested = FollowRequestMassage.objects.all().filter(send_by=request.user,send_to=user).exists()
+        
+        button_info = get_extra_info(user,request.user)
+        button_text = button_info[0]
+        button_on_click = button_info[1]
+        button_on_click_func_parameters = button_info[2]    
+        button_on_click =  str('_' + button_on_click)
+            
+            
         show = True if user_follows or not is_private else False
     
         context = {
-            'user':user,'is_owner':is_owner,'is_private':is_private,'total_following':total_following,'total_posts':total_posts,
-            'user_follows':user_follows,'profile_user_follows':profile_user_follows,'total_followers':total_followers,'show':show
+            'user':user,'is_owner':is_owner,'is_private':is_private,'total_following':total_following,'total_posts':total_posts,'button_info_':button_info,
+            'user_follows':user_follows,'profile_user_follows':profile_user_follows,'total_followers':total_followers,'show':show,'requested':requested,
+            'button_text':button_text,'button_on_click':button_on_click,'button_on_click_func_parameters':button_on_click_func_parameters
         }
         
         return render(request,'profile/profile.htm',context)
@@ -50,14 +60,14 @@ def profile_page(request,username):
         
         content = {
             'user':user,'is_owner':is_owner,'total_following':total_following,'total_posts':total_posts,'total_followers':total_followers,
-            'show':show
+            'show':show,'requested':False
         }
         
         return render(request,'profile/profile.htm',content)
     
 
 @api_view(['GET','POST'])
-def get_posts(request):#For posts of user in User Profile
+def get_posts(request):
     """Returns Posts of a specific user.\n
     Designed for Profile Page"""
     
@@ -87,7 +97,7 @@ def get_posts(request):#For posts of user in User Profile
                                 
             other_values = {'last':last,'has_posts':True}
 
-            to_be_returned = {'posts':posts,'others':other_values} 
+            to_be_returned = {'posts':posts,'others':other_values,'total_recived':len(all_posts[deliverd:deliverd+posts_per_req])} 
             
             return JsonResponse(to_be_returned,safe=False)
         
@@ -99,7 +109,7 @@ def get_posts(request):#For posts of user in User Profile
             
             other_values = {'last':True,'has_posts':True}
 
-            to_be_returned = {'posts':posts,'others':other_values} 
+            to_be_returned = {'posts':posts,'others':other_values,'total_recived':len(all_posts[deliverd:])} 
             
             return JsonResponse(to_be_returned,safe=False)
    
@@ -137,7 +147,7 @@ def get_tagged(request):
             
             others = {'has_more_tagged_posts':has_more}
             
-            to_be_returned = {'tagged':tagged_posts,'others':others,'is_tagged_in_any':True}
+            to_be_returned = {'tagged':tagged_posts,'others':others,'is_tagged_in_any':True,'total_recived':len(list(user_tagged_in)[deliverd:deliverd+posts_per_call])}
             
             return JsonResponse(to_be_returned,safe=False)
         
@@ -148,7 +158,7 @@ def get_tagged(request):
 
             others = {'has_more_tagged_posts':False}
             
-            to_be_returned = {'tagged':tagged_posts,'others':others,'is_tagged_in_any':True}
+            to_be_returned = {'tagged':tagged_posts,'others':others,'is_tagged_in_any':True,'total_recived':len(list(user_tagged_in)[deliverd:])}
             
             return JsonResponse(to_be_returned,safe=False)
         
@@ -188,7 +198,7 @@ def get_bookmarks(request):
 
             others = {'has_more':has_more}
             
-            return JsonResponse({'book_marks':some_book_marks,'others':others,'has_book_marks':True},safe=False)
+            return JsonResponse({'book_marks':some_book_marks,'others':others,'has_book_marks':True,'total_recived':len(list(all_book_marks)[deliverd:deliverd+posts_per_call])},safe=False)
 
         except IndexError:
             some_book_marks = {}
@@ -196,7 +206,7 @@ def get_bookmarks(request):
             for book_mark_obj in list(all_book_marks)[deliverd:]:
                 some_book_marks.update({f'{book_mark_obj}':[f'{book_mark_obj.id}',f'{book_mark_obj.photo.url}']})
 
-            return JsonResponse({'book_marks':some_book_marks,'others':{'has_more':False},'has_book_marks':True},safe=False)
+            return JsonResponse({'book_marks':some_book_marks,'others':{'has_more':False},'has_book_marks':True,'total_recived':len(list(all_book_marks)[deliverd:])},safe=False)
 
 
 @api_view(['POST','GET'])
@@ -210,6 +220,7 @@ def get_following(request):
     user = data['user']
     deliverd = data['deliverd']
     per_call = data['per_call']
+    req_user = request.user
     
     user = User.objects.get(username=user)
     
@@ -221,18 +232,21 @@ def get_following(request):
     else:
         try:
             users_following = {}
-            for user_ in list(following)[deliverd:deliverd+per_call]:
-                if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
-                else:
-                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}']})
 
+            for user_ in list(following)[deliverd:deliverd+per_call]:          
+                if str(request.user) == str(user):      
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
+
+                else:
+                    button_info = get_extra_info(user_,request.user)
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}',button_info]})  
+                    
             has_more = True
             
             if len(following) <= (deliverd + 1):
                 has_more = False
-                
-            others = {'has_more':has_more,'deliverd':deliverd+len(list(following)[deliverd:])}
+            
+            others = {'has_more':has_more,'deliverd':len(list(following)[deliverd:deliverd+per_call])}
             to_be_returned = {'following':users_following,'is_following_anyone':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
@@ -240,13 +254,14 @@ def get_following(request):
         except IndexError:
             
             for user_ in list(following)[deliverd:]:
-                if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.photo.profile_picture.url}',f'{user_.username}']})
+                if str(request.user) == str(user):      
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
+
                 else:
-                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.photo.profile_picture.url}']})
-                    
-                    
-            others = {'has_more':False,'deliverd':deliverd+len(list(following)[deliverd:])}
+                    button_info = get_extra_info(user_,request.user)
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}',button_info]})  
+                            
+            others = {'has_more':False,'deliverd':len(list(following)[deliverd:])}
             to_be_returned = {'following':users_following,'is_following_anyone':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
@@ -275,17 +290,18 @@ def get_followers(request):
         try:
             users_following = {}
             for user_ in list(followers)[deliverd:deliverd+per_call]:
-                if not user_.first_name is None:
+                if str(user) == str(request.user):
                     users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
                 else:
-                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}']})
+                    button_info = get_extra_info(user_,request.user)
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}',button_info]})
 
             has_more = True
             
             if len(followers) <= (deliverd + 1):
                 has_more = False
                 
-            others = {'has_more':has_more,'deliverd':deliverd+len(list(followers)[deliverd:deliverd+per_call])}
+            others = {'has_more':has_more,'deliverd':len(list(followers)[deliverd:deliverd+per_call])}
             to_be_returned = {'followers':users_following,'is_followed':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
@@ -293,39 +309,37 @@ def get_followers(request):
         except IndexError:
             
             for user_ in list(followers)[deliverd:]:
-                if not user_.first_name is None:
-                    users_following.update({f'{user_}':[f'{user_.photo.profile_picture.url}',f'{user_.username}']})
+                if str(user) == str(request.user):
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}']})
                 else:
-                    users_following.update({f'{user_}':[f'{user_.photo.profile_picture.url}']})
+                    button_info = get_extra_info(user_,request.user)
+                    users_following.update({f'{user_}':[f'{user_.id}',f'{user_.profile_picture.url}',f'{user_.username}',button_info]})
+
                     
-                    
-            others = {'has_more':False,'deliverd':deliverd+len(list(followers)[deliverd:])}
+            others = {'has_more':False,'deliverd':len(list(followers)[deliverd:])}
             to_be_returned = {'following':users_following,'is_followed':True,'others':others}
             
             return JsonResponse(to_be_returned,safe=False)
 
 
 @api_view(['POST','GET'])
-def remove_following(request):
+def remove_following(request):#Unfollow user
     
     data = request.data
     
     user_to_be_removed = data['username']
-    to_be_removed_from = data['user']
+    to_be_removed_from = data['user_']
     user = request.user
-    if request.user.is_authenticated and str(user) == str(to_be_removed_from):
         
-        user_to_be_removed = User.objects.get(username=user_to_be_removed)
-        to_be_removed_from = User.objects.get(username=to_be_removed_from)
+    user_to_be_removed = User.objects.get(username=user_to_be_removed)
+    to_be_removed_from = User.objects.get(username=to_be_removed_from)
+    
+    removed_user = remove_follower(to_be_removed_from,user_to_be_removed)
+    return JsonResponse({'success':removed_user,'id':Profile.objects.get(username=user_to_be_removed).id,'id_t':Profile.objects.get(username=request.user).id},safe=False)
         
-        removed_user = remove_follower(to_be_removed_from,user_to_be_removed)
-        return JsonResponse({'success':removed_user,'id':Profile.objects.get(username=user_to_be_removed).id},safe=False)
-        
-    return HttpResponseBadRequest('Detected data minuplitaion')
-
 
 @api_view(['POST','GET'])
-def remove_followers(request):
+def remove_followers(request):#Users that follow a spefic user
     
     data = request.data
     
@@ -333,16 +347,14 @@ def remove_followers(request):
     to_be_removed_from = data['user']
     user = request.user
     if request.user.is_authenticated and str(user) == str(to_be_removed_from):
-        
+
         user_to_be_removed = User.objects.get(username=user_to_be_removed)
         to_be_removed_from = User.objects.get(username=to_be_removed_from)
         
-        remove_user = remove_follower(to_be_removed_from,user_to_be_removed)
+        remove_user = remove_follower(user_to_be_removed,to_be_removed_from)
         return JsonResponse({'success':remove_user,'id':Profile.objects.get(username=user_to_be_removed).id},safe=False)
 
     return HttpResponseBadRequest('Detected data minuplitaion')
-
-
 
 
 @api_view(['POST','GET'])
@@ -360,27 +372,13 @@ def get_followers_count(request):
     data = request.data
     
     user = User.objects.get(username=data['user'])
-    return JsonResponse({'count':Followers.objects.get(user=user).followers.count()},safe=False)
+    return JsonResponse({'count':Followers.objects.get(user=user).followers.count()},safe=False)  
 
 
-def is_following(user,whom):
-    """
-    Returns True if 'user' follows 'whom' and False if 'user' is not authenticated \n
-    or does'nt follow 'whom'. User must be a user instance and whom must be a Profile instance
-    """
-
-    if not user.is_authenticated:
-        return False
-
-    if isinstance(whom,User):
-        if not whom.is_authenticated:
-            return False
-
-        whom = whom.profile
-        
-    following_obj = Following.objects.get(user=user)
-
-    if following_obj.following.all().filter(username=whom.username).exists():
-        return True
-    return False
+@api_view(['POST','GET'])
+def get_yourself(request):
+    
+    user = request.user.profile
+    
+    return JsonResponse({'id':user.id,'profile_url__':user.profile_picture.url,'name':str(user),'username':user.username},safe=False)
     

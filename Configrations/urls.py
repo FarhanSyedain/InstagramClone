@@ -11,7 +11,8 @@ from InstagramClone.settings import DEBUG
 
 
 #Real imports
-from Others import views as Others
+from Profile import views as Profile
+from Functionalities import views as Utilts
 
 
 urlpatterns = [
@@ -31,21 +32,27 @@ urlpatterns = [
     
     #Real paths
     
-    path('<str:username>/',Others.profile_page,name='profile_page'),
+    path('<str:username>/',Profile.profile_page,name='profile_page'),
     
     
     
     
     #API paths
-    path('profile/api/get/data/posts/',Others.get_posts,name='API_get_posts'),
-    path('profile/api/get/data/tagged/posts/',Others.get_tagged,name='API_get_posts'),
-    path('profile/api/get/data/bookmarks/posts/',Others.get_bookmarks,name='API_get_book_marks'),
-    path('profile/api/get/data/following/users/',Others.get_following,name='API_get_following'),
-    path('profile/api/get/data/followers/users/',Others.get_followers,name='API_get_followers'),
-    path('profile/api/get/data/remove/following/',Others.remove_following,name='API_remove_following'),
-    path('profile/api/get/data/remove/follower/',Others.remove_followers,name='API_remove_follower'),
-    path('profile/api/get/data/get/following/count',Others.get_following_count,name='API_get_following_count'),
-    path('profile/api/get/data/get/followers/count',Others.get_followers_count,name='API_get_followers_count'),
+    path('profile/api/get/data/posts/',Profile.get_posts,name='API_get_posts'),
+    path('profile/api/get/data/tagged/posts/',Profile.get_tagged,name='API_get_posts'),
+    path('profile/api/get/data/bookmarks/posts/',Profile.get_bookmarks,name='API_get_book_marks'),
+    path('profile/api/get/data/following/users/',Profile.get_following,name='API_get_following'),
+    path('profile/api/get/data/followers/users/',Profile.get_followers,name='API_get_followers'),
+    path('profile/api/get/data/remove/following/',Profile.remove_following,name='API_remove_following'),
+    path('profile/api/get/data/remove/follower/',Profile.remove_followers,name='API_remove_follower'),
+    path('profile/api/get/data/get/following/count',Profile.get_following_count,name='API_get_following_count'),
+    path('profile/api/get/data/get/followers/count',Profile.get_followers_count,name='API_get_followers_count'),
+    path('profile/api/get/data/get_yourself',Profile.get_yourself,name='API_get_yourself'),
+    
+    
+    path('genral/api/follow/user',Utilts.follow_user,name='API_follow_user'),
+    path('genral/api/unfollow/user',Utilts.unfollow_user,name='API_unfollow_user'),
+    path('genral/api/delete/follow-request',Utilts.delete_request,name='API_delete_request'),
     
     
 ]

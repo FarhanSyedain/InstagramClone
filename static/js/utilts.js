@@ -1,4 +1,7 @@
-//Module for comunicating with backend
+/**
+ * This file contains function that will be used in almost every page
+ */
+
 
 
 function getCookie(name) {
@@ -16,21 +19,6 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+
 var csrftoken = getCookie('csrftoken');
-
-
-
-
-
-function add_comment(data, p_id) {
-
-}
-
-function like_post(p_id) {
-
-}
-
-function bookmark_post(p_id) {
-
-
-}
