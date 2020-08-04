@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+
+    <script src="/node_modules/croppie/croppie.js"></script>
+    <link rel="stylesheet" href="/node_modules/croppie/croppie.css" />
+
+</head>
+
+<body>
+
+    <div class="container p-5 bg-info">
+        <div class="panel panel-default">
+            <div class="panel-heading">Upload Image</div>
+            <br />
+            <div class="panel-body">
+                <input type="file" accept="image/jpeg, image/png" name="upload_image" id="upload_image"
+                    onchange="loadFile(event)">
+            </div>
+            <div class="container p-2" id="image-display"></div>
+            <div class="mt-2" id="upload-button">
+                <button type="button" onclick="uploadFile()" class="btn-light">Upload</button>
+            </div>
+            <div class="container mt-5" id="cropped-image-display">
+                <p>Cropped Image:</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var image_display = document.getElementById('image-display');
+        var cropped_image_display = document.getElementById('cropped-image-display');
+        var upload_button = document.getElementById('upload-button');
+        image_display.style = 'display:none';
+        cropped_image_display.style = 'display:none';
+        upload_button.style = 'display:none';
+
+        var cropped_image;
+
+        var main_cropper = new Croppie(image_display, {
+            viewport: { width: 275, height: 275 },
+            boundary: { width: 300, height: 300 },
+            showZoomer: true,
+            enableResize: true,
+            enableOrientation: false,
+            // mouseWheelZoom: 'ctrl' * Set mouseWheelZoom to 'ctrl' to make the user have to hold the ctrl key while zooming in or out
+        });
+
+        var loadFile = function () {
+            console.log(event.target.files);
+
+            if (event.target.files.length > 0) {
+                image_display.style = 'display:block'
+                upload_button.style = 'display:block'
+            };
+
+            imageURL = URL.createObjectURL(event.target.files[0]);
+            // main_cropper.croppie()
+
+            main_cropper.bind({
+                url: imageURL,
+                orientation: 4
+            });
+
+            console.log('Done');
+        }
+
+        var uploadFile = function () {
+            console.log('Uploading... (writing value to variable)');
+            main_cropper.result('cropped_portion').then(function (cropped_portion) {
+                cropped_image = cropped_portion;
+                console.log(cropped_image.innerHTML);
+                if(cropped_image_display.children.length > 1) {
+                    cropped_image_display.children[1].remove();
+                }
+                cropped_image_display.appendChild(cropped_image);
+                
+            });
+
+            cropped_image_display.style = 'display:block'
+        }
+
+    </script>
+
+
+</body>
+
+</html>
