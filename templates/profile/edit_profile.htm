@@ -1,22 +1,144 @@
 {%extends 'main.htm' %} {%load static%} {%block content%}
+<style>
 
 
+label div{
+    height: 50px;
+    width: 50px;
+    background: #000;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+</style>
+<div id="fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd">
+
+</div>
 <div style="width:600px" class="container bg-light">
 
+    <div class="container p-2" id="image-display"></div>
+
+
     <span>Username*</span>
-    <input type="text" class="form-control" name="Username" placeholder="Username" value="FarhanSyedain">
-
-    <span>First Name*</span>
-    <input type="text" class="form-control" name="first_name" placeholder="First Name" value="Farhan">
-
-    <span>Last Name*</span>
-    <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="Syedain">
+    <input id="username" type="text" class="form-control" name="Username" placeholder="Username" value="{{username}}">
+    <p id="fdsfsdibhsdfsdfsdlfjk" class="text-center mb-0 hidden text-danger">Username not availible</p>
+    <span>First Name</span>
+    <input id="first_name" type="text" class="form-control" name="first_name" placeholder="First Name" value="{{first_name}}">
+    <p class="hidden text-danger mb-0 text-center" id="fdsafsd">too Long</p>
+    <span>Last Name</span>
+    <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{last_name}}">
+    <p class="hidden text-danger mb-0 text-center" id="fdsfdsfafsd">too Long</p>
 
     <span>Bio</span>
-    <textarea name="" class="form-control" rows="5"></textarea>
+    <textarea id="bio" name="" class="form-control" placeholder="Something about yourself(optional)" aria-expanded="false" rows="5">{{bio}}</textarea>
 
-    <span>i will design later on</span>
+    <span>Phone</span>
+    <input id="phone_number" min="0" type="number" class="form-control" name="phone_number" placeholder="Phone" value="{{phonenumber}}">
+    {%if not private %}
+        <select  class="form-control" id="check">
+            <option value="false">Public</option>
+            <option value="true">Private</option>
+        </select>
+    {%endif%}
+    {%if  private%}
+        <select  class="form-control" id="check">
+            <option value="true">Private</option>
+            <option value="false">Public</option>
+        </select>
+    {%endif%}
+
+    <select  class="form-control"  name="" id="Country">
+        {%if country is not None%}
+            <option value="{{country}}">{{country}}</option>
+            <option value="India">India</option>
+            <option value="China">China</option>
+        {%else%}
+            <option value="None">Not Selected</option>
+            {%for i in countrys%}
+                <option value="{{i}}">{{i}}</option>
+            {%endfor%}
+        {%endif%}
+    </select>
+<button onclick="update_form()" class="btn btn-success mt-2 mb-2">Save</button>
+<a href="../" style="position:relative;left:68%" class="btn btn-danger mt-2 text-white  mb-2">Skip</a>
 </div>
 
+
+<script>
+
+
+    function update_form(){
+
+        var username =  document.getElementById('username').value 
+        var first_name =  document.getElementById('first_name').value 
+        var last_name =  document.getElementById('last_name').value 
+        var phone_number =  document.getElementById('phone_number').value 
+        var Country =  document.getElementById('Country').value 
+        var is_private_or_public =  document.getElementById('check').value
+        var bio = document.getElementById('bio').value
+
+        if (first_name.trim().length >25){
+            document.getElementById('fdsafsd').classList.remove('hidden')
+            
+        }else{
+        if (last_name.trim().length >25){
+            document.getElementById('fdsfdsfafsd').classList.remove('hidden')
+            
+        }
+
+        
+
+        if (username.trim().length == 0){
+
+        }else{
+
+            url = '../profile/api/update_yourself'
+
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ 'username':username,'is_private':is_private_or_public,'first_name':first_name,'last_name':last_name,'phone':phone_number,'country':Country,'bio':bio
+            })
+            })
+            .then((resp)=>{
+                return resp.json()
+            })
+            .then((data)=>{
+                if (data['success']){
+                    document.getElementById('fdsfsdibhsdfsdfsdlfjk').classList.add('hidden')
+                    document.getElementById('fdsafsd').classList.add('hidden')
+                    document.getElementById('fdsfdsfafsd').classList.add('hidden')
+                    item = ('<div class="alert-success p-2 text-center">Updated</div>')
+                    document.getElementById('fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd').innerHTML = ''
+                    document.getElementById('fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd').innerHTML += item
+
+                }
+                else{
+                    if (data['username']){
+                        document.getElementById('fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd').innerHTML = ''
+
+                        document.getElementById('fdsfsdibhsdfsdfsdlfjk').classList.remove('hidden')
+                    }
+                    else{
+                        item = ('<div class="alert-danger p-2 text-center">Error While updating</div>')
+
+                        document.getElementById('fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd').innerHTML = ''
+                        document.getElementById('fasdkjgbasdvndsmbvksdajskjdfbhjkjhbasdvsdkbskjdjsdkafsdafsd').innerHTML += item
+                    }
+                }
+            })}
+
+
+
+
+        }
+        
+    }
+
+
+</script>
 
 {%endblock%}

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import JsonResponse,HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
 
 from Configrations.models import Post,Followers,Following,Profile,User,Tagged,BookMark,FollowRequestMassage
 from Configrations.utilts import remove_follower,is_following,get_extra_info
@@ -9,6 +10,7 @@ from rest_framework.decorators import api_view
 
 
 # Main Profile page
+@login_required(login_url='Login')
 def profile_page(request,username):
     
     if not request.user.is_authenticated or str(request.user) != username:
@@ -16,6 +18,7 @@ def profile_page(request,username):
         user = get_object_or_404(Profile,username=username)
         is_owner = False
         is_private = user.is_private
+        bio = user.bio
         
         total_followers = Followers.objects.all().get(user=user.user).get_count
         total_following = Following.objects.all().get(user=user.user).get_count
@@ -33,14 +36,14 @@ def profile_page(request,username):
         button_on_click = button_info[1]
         button_on_click_func_parameters = button_info[2]    
         button_on_click =  str('_' + button_on_click)
-            
+    
             
         show = True if user_follows or not is_private else False
     
         context = {
             'user':user,'is_owner':is_owner,'is_private':is_private,'total_following':total_following,'total_posts':total_posts,'button_info_':button_info,
             'user_follows':user_follows,'profile_user_follows':profile_user_follows,'total_followers':total_followers,'show':show,'requested':requested,
-            'button_text':button_text,'button_on_click':button_on_click,'button_on_click_func_parameters':button_on_click_func_parameters
+            'button_text':button_text,'button_on_click':button_on_click,'button_on_click_func_parameters':button_on_click_func_parameters,'bio':bio
         }
         
         return render(request,'profile/profile.htm',context)
@@ -50,6 +53,7 @@ def profile_page(request,username):
         
         user = get_object_or_404(Profile,username=username)
         is_owner = True
+        bio = user.bio
         
         total_followers = Followers.objects.all().get(user=user.user).get_count
         total_following = Following.objects.all().get(user=user.user).get_count
@@ -60,7 +64,7 @@ def profile_page(request,username):
         
         content = {
             'user':user,'is_owner':is_owner,'total_following':total_following,'total_posts':total_posts,'total_followers':total_followers,
-            'show':show,'requested':False
+            'show':show,'requested':False,'bio':bio
         }
         
         return render(request,'profile/profile.htm',content)
@@ -381,4 +385,35 @@ def get_yourself(request):
     user = request.user.profile
     
     return JsonResponse({'id':user.id,'profile_url__':user.profile_picture.url,'name':str(user),'username':user.username},safe=False)
+    
+    
+@api_view(['POST'])
+def update_profile(request):
+    
+    data = request.data 
+    username = data['username']
+    user = request.user
+    
+    if str(user) == str(username):
+        pass
+    else:
+        try:
+            assert not Profile.objects.filter(username=username).exists()
+            user.profile.username  = username
+        except AssertionError:
+            return Response({'success':False,'username':True})
+    try:
+        
+        user.profile.first_name = data['first_name']
+        user.profile.last_name = data['last_name']        
+        user.profile.phone_number = data['phone']
+        user.profile.is_private = data['is_private'].capitalize()
+        user.profile.country = data['country']
+        user.profile.bio = data['bio']
+        user.profile.save()
+        
+        return Response({'success':True})
+    
+    except:
+        return Response({'success':False,'username':False})
     

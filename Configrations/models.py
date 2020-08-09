@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save,pre_save
 from django.utils import timezone
+from django.contrib.auth.forms import UserCreationForm
+
+
 
 #Profiles of everyone 
 class Profile(models.Model):
@@ -20,8 +23,14 @@ class Profile(models.Model):
     
     
     def __str__(self):
+      
+      if self.first_name is None :
+          return self.username
+      elif len(self.first_name) == 0:
+          return self.username
+      return str(self.first_name + self.last_name)
+      
         
-        return (self.username if self.first_name is None else str(self.first_name + self.last_name))
 
 
 class Post(models.Model):
@@ -31,16 +40,21 @@ class Post(models.Model):
     caption = models.TextField(blank=True)
     likes = models.ManyToManyField(User,blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    
+    
     @property
     def like_count(self):
         
-        return self.likes.objects.all().count()
-    
+        return self.likes.all().count()
     
     @property
     def get_count(self):
-        
+    
         return Post.objects.filter(instance=self).count()
+    
+    def __str__(self):
+        return str(self.id)
+    
     class Meta:
         ordering = ['-id']
     
@@ -59,6 +73,17 @@ class Comment(models.Model):
     
     post = models.ForeignKey(Post,on_delete=models.CASCADE,null=True)
     comment_body = models.TextField()
+    dated = models.DateField(auto_now_add=True)    
+    author = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
+    
+
+class CommentReply(models.Model):
+    
+    parent_comment = models.ForeignKey(Comment,on_delete=models.CASCADE,null=True)
+    comment_body = models.TextField()
+    dated = models.DateField(auto_now_add=True)
+    author = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
+
     
     
 class Following(models.Model):
@@ -80,14 +105,13 @@ class Followers(models.Model):
         return self.followers.count()
 
 
-
 class BookMark(models.Model):
     user = models.OneToOneField(Profile,on_delete=models.CASCADE,null=True)
     bookmarked_posts = models.ManyToManyField(Post,blank=True)
 
 
 class FollowRequestMassage(models.Model):
-    
+    seen = models.BooleanField(default=False)
     send_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     send_to = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
     send_on = models.DateTimeField(auto_now_add=True)
@@ -109,15 +133,20 @@ class FollowRequestMassage(models.Model):
     def reject(self):
         
         self.delete()
-        
 
     
-    
+
     
 class FollowRequests(models.Model):
     user = models.OneToOneField(Profile,on_delete=models.CASCADE,null=True)
     requests = models.ManyToManyField(FollowRequestMassage,blank=True)
 
+
+class RegisterUser(UserCreationForm):
+    
+    class Meta:
+        model = User 
+        fields = ['username','password1','password2']
 
 
 def post_save__tagged(sender,instance,created,*args,**kwargs):
@@ -162,10 +191,27 @@ def on_req_user(sender,instance,created,*args,**kwargs):
         obj = FollowRequests.objects.get(user=instance.send_to)
         obj.requests.add(instance)
         obj.save()
-             
-             
+
+
+def update_user(sender,instance,created,*args,**kwargs):
+    
+    if not created:
+        
+        user = User.objects.get(profile=instance) 
+        user.username = instance.username
+        user.first_name = '' if  instance.first_name is None else instance.first_name 
+        user.last_name = '' if  instance.last_name is None else instance.last_name 
+        
+        user.save()
+
+                    
+
+
+  
 post_save.connect(post_save__tagged,Post)
 post_save.connect(create_user_,User)
 post_save.connect(on_req_user,FollowRequestMassage)
+post_save.connect(update_user,Profile)
 
-all_objects_to_be_added_in_adminpage = [Comment,Post,Profile,Tagged,Following,Followers,Post_Tags,BookMark,FollowRequests,FollowRequestMassage]
+all_objects_to_be_added_in_adminpage = [Comment,Post,Profile,Tagged,Following,Followers,Post_Tags,BookMark,FollowRequests,FollowRequestMassage,
+                                        CommentReply]

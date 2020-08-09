@@ -1,0 +1,23 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{%static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{%static 'font-awesome/css/font-awesome.min.css' %}">
+    </head>
+    <body>
+        <div style="position: absolute;width:290px;top:50%;left:50%;transform:translate(-50%,-50%)">
+            <p class="text-center">Login Below</p>
+            <form action="" method="POST">
+                {%csrf_token%}
+                <input  autocomplete='false' value="" class="form-control" type="text" required placeholder="Username" name="username" >
+                <input value="" class="form-control" type="password" required placeholder="Password" name="password" >
+                <input name="remember" type="checkbox"> Remember me
+                {%if incorrect_cred%}
+                <p class="text-center text-danger">Incorrect username or password</p>
+                {%endif%}
+                <input style="display: block;margin:auto" type="submit" class="btn btn-success mt-1">
+            </form>
+        </div>
+    </body>
+</html>

@@ -185,6 +185,12 @@
 .img-container {
     display: block;
     width: 550px;
+    height: auto;
+    margin-bottom: auto;
+}
+
+.immmm {
+    width: 550px;
     height: 550px;
 }
 

@@ -1,45 +1,37 @@
-{%extends 'main.htm' %}
-{%load static%}
-{%block content%}
-    <div style="width: 1100px;margin-top:100px" class="container-fluid p-0">
-        <div style="overflow: auto;" class="comment-stuff">
-            <div style="height: 90px;" class="container-fluid bg-light p-0">
-                <img  src="{%static  'usefull_images/anon.png' %}" class="img-imgimg" >
-                <p><a style="line-height: 90px;" href="#">FarhanSyedain</a> | 12 July</p>
-            </div>
-                
-            <span>12 Likes <i id="like1"  style="font-size: 1.5em;"  class="fa non-like fa-heart like_buttons"></i> | 2k Comments |
-                <svg data-default="none"  aria-label="Comment" class="_8-yf5 rep " fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path></svg>
-
-                <i id="bookmark1"  style="font-size:1.5em ;" class="fa fa-bookmark book_marks marked"></i>
-
-            </span><br><br>
-            <p>Comments</p>
-            <div class="comments-all">
-                <div class="sticky-top">
-                    <textarea data-user="-1" id="ReplyBox"  cols="30" rows="2" class="form-control " placeholder="Add a Comment" ></textarea>
-                    <button style="display:block;margin:auto" class=" btn btn-success">Post</button>
-                </div>
-                <div class="bg-light p-1 mb-2">
-                    <img src="{%static  'usefull_images/anon.png' %}" class="image-com" >
-                    <span><a href="#">@farhansyedain_  </a> <p style="white-space: pre-wrap;word-break:break-all">Lorem ipsum do              lor     sit amet consectetur adipisicing elit. Incidunt eaque consequatur sit? Rem ipsum soluta quas alias beatae qui impedit asperiores aliquid tempore. Ullam, minus. Laborum, magni illo! Ab, numquam!</p> </span>
-                    <span>12 July  | <a data-default="BTN"  id="1" data-user="farhansyedain" class="text-info rep">Reply</a> | <a class="text-blue">View All 3 Replies</a> </span>
-                </div>
-                <div class="bg-light p-1 mb-2">
-                    <img src="{%static  'usefull_images/anon.png' %}" class="image-com" >
-                    <span><a href="#">@farhansyedain_ </a> <p style="white-space: pre-wrap;word-break:break-all">Lorem ipsum do              lor     sit amet consectetur adipisicing elit. Incidunt eaque consequatur sit? Rem ipsum soluta quas alias beatae qui impedit asperiores aliquid tempore. Ullam, minus. Laborum, magni illo! Ab, numquam!</p> </span>
-                    <span>12 July  | <a data-default="BTN" id="2" data-user="syedain" class="text-info rep">Reply</a> | <a class="text-blue">View All 3 Replies</a> </span>
-                </div>
-            </div>
-            <div class="bg-light p-1 mb-2">
-                <img src="{%static  'usefull_images/anon.png' %}" class="image-com" >
-                <span><a href="#">@farhansyedain_ </a> <p style="white-space: pre-wrap;word-break:break-all">Lorem ipsum do              lor     sit amet consectetur adipisicing elit. Incidunt eaque consequatur sit? Rem ipsum soluta quas alias beatae qui impedit asperiores aliquid tempore. Ullam, minus. Laborum, magni illo! Ab, numquam!</p> </span>
-                <span>12 July  | <a data-default="BTN" id="3" data-user="farhan" class="text-info rep">Reply</a> | <a class="text-blue">View All 3 Replies</a> </span>
+{%extends 'main.htm' %} {%load static%} {%block content%}
+<div style="width: 1100px;margin-top:100px" class="container-fluid p-0">
+    <div style="overflow: auto;" class="comment-stuff">
+        <div style="height: 90px;" class="container-fluid bg-light p-0">
+            <img src="{{owner_pic_url}}" class="img-imgimg">
+            <p><a style="line-height: 90px;" href="#">{{post_owner}}</a> | {{uploaded_on }} | {%if is_owner%} <span id="____________________FDSFSDfsdf__" ondblclick="delete__post()" class="fa fa-trash-o fa-2x text-danger"></span> {%endif%} </p>
+        </div>
+        <span><span id="like_count__{{id}}">{{like_count}}</span> Likes {%if liked_by_user%} <i onclick="like_unlike_post('{{id}}')" id="like{{id}}" style="font-size: 1.5em;" class="fa like fa-heart like_buttons"></i> {%else%}<i onclick="like_unlike_post('{{id}}')"
+            id="like{{id}}" style="font-size: 1.5em;" class="fa non-like fa-heart like_buttons"></i> {%endif%} | <span id="comment_____count___">{{total_comments}}</span> Comments |
+        <svg data-scope="global" aria-label="Comment" onclick="prepare_comment('global','null')" class="_8-yf5 rep " fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path></svg>        {%if is_book_marked%}
+        <i onclick="add_remove_bookmark('{{id}}')" id="bookmark{{id}}" style="font-size:1.5em ;" class="fa fa-bookmark book_marks marked "></i> {%else%}
+        <i onclick="add_remove_bookmark('{{id}}')" id="bookmark{{id}}" style="font-size:1.5em ;" class="fa fa-bookmark book_marks non-marked "></i> {%endif%}
+        </span><br><br>
+        <p>Comments</p>
+        <div id="allllll___________comments" class="comments-all">
+            <div class="sticky-top">
+                <textarea data-scope="global" data-user_name="null" id="ReplyBox" cols="30" rows="2" class="form-control " placeholder="Add a Comment"></textarea>
+                <button onclick="post_comment()" style="display:block;margin:auto" class=" btn btn-success">Post</button>
             </div>
         </div>
-        
-        <img class="img-container " src="{%static  'usefull_images/anon.png' %}">
-        <div class="www mt-4">Lorem        Lorem ipsum dolor, sit amet consectetur adipisicing elit. In numquam id voluptatem eius fugit rerum, veniam facilis aliquid doloribus, sit qui molestiae libero voluptate officia odit corrupti voluptas dolorem placeat at veritatis, impedit voluptatibus accusamus earum nemo. Velit non, maxime cumque repellat ea consectetur quaerat recusandae saepe facilis obcaecati nemo minima architecto, optio in. Officiis, tempore sit? Sunt obcaecati delectus amet vero magni eligendi, maxime blanditiis! Perspiciatis nihil rerum eligendi magnam provident, vel modi minima distinctio asperiores corporis illo dolor quidem fugiat nulla tenetur culpa vitae iusto dolore deleniti blanditiis. Exercitationem, numquam omnis. Necessitatibus sapiente nostrum voluptates labore quo tempore? ipsum dolor sit amet consectetur adipisicing elit. Officia tempora voluptates ad, fugit quos temporibus. Laboriosam ma        xime nam accusamus beatae dignissimos amet aperiam nobis. Deleniti saepe quos quisquam sint consectetur?</div>
     </div>
-<br><br><br><br><br><br><br><br><br><br><br><br>
-{%endblock%}
+
+    <div class="immmm">
+        <img class="img-container " src="{{post_url}}">
+    </div>
+    <div class="www mt-4">Lorem Lorem ipsum dolor, sit amet consectetur adipisicing elit. In numquam id voluptatem eius fugit rerum, veniam facilis aliquid doloribus, sit qui molestiae libero voluptate officia odit corrupti voluptas dolorem placeat at veritatis, impedit voluptatibus
+        accusamus earum nemo. Velit non, maxime cumque repellat ea consectetur quaerat recusandae saepe facilis obcaecati nemo minima architecto, optio in. Officiis, tempore sit? Sunt obcaecati delectus amet vero magni eligendi, maxime blanditiis! Perspiciatis
+        nihil rerum eligendi magnam provident, vel modi minima distinctio asperiores corporis illo dolor quidem fugiat nulla tenetur culpa vitae iusto dolore deleniti blanditiis. Exercitationem, numquam omnis. Necessitatibus sapiente nostrum voluptates
+        labore quo tempore? ipsum dolor sit amet consectetur adipisicing elit. Officia tempora voluptates ad, fugit quos temporibus. Laboriosam ma xime nam accusamus beatae dignissimos amet aperiam nobis. Deleniti saepe quos quisquam sint consectetur?</div>
+</div>
+
+<script>
+    var post_id = '{{id}}'
+    var page= 'detail'
+</script>
+<script src="{%static 'js/home.js' %}"></script>
+<br><br><br><br><br><br><br><br><br><br><br><br> {%endblock%}

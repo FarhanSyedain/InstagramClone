@@ -1,4 +1,5 @@
 from .models import Profile,Followers,Following,User,FollowRequestMassage
+
 from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
@@ -75,23 +76,25 @@ def is_following(user,whom):
 def get_extra_info(user_,user):
     
     button_info_dict = {
-        'CASEONE':['Follow','_follow_user(',f'{user_}'],
-        'CASETWO':['Unfollow','_unfollow_user(',f'{user_}'],
-        'CASETHREE':['Follow Back','_follow_user(',f'{user_}'],
-        'CASEFOUR':['Requested','_del_req(',f'{user_}'],
+        'CASEONE':['Follow','_follow_user(',f'{user_.username}'],
+        'CASETWO':['Unfollow','_unfollow_user(',f'{user_.username}'],
+        'CASETHREE':['Follow Back','_follow_user(',f'{user_.username}'],
+        'CASEFOUR':['Requested','_del_req(',f'{user_.username}'],
         'IFIS':['','']
     }
+
     if str(user_) == str(user):
         return button_info_dict['IFIS']
     
     if is_following(user,user_):
         return button_info_dict['CASETWO']
     
+    elif FollowRequestMassage.objects.all().filter(send_by=user,send_to=user_).exists():
+        return button_info_dict['CASEFOUR']
+    
     elif is_following(user_.user,user):
         return button_info_dict['CASETHREE']
     
-    elif FollowRequestMassage.objects.all().filter(send_by=user,send_to=user_):
-        return button_info_dict['CASEFOUR']
     
     else:
         return button_info_dict['CASEONE']
@@ -108,3 +111,5 @@ def delete_follow_request(send_by,send_to):
     
     except:
         return False
+    
+

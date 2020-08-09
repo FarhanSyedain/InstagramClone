@@ -23,7 +23,7 @@ function include(file) {
 
 }
 
-include('../static/js/home.js')
+
 
 
 
@@ -636,7 +636,7 @@ function get_yourself() {
 
 function __del_req(username) {
     url = '../genral/api/delete/follow-request'
-
+console.log('Hi')
     fetch(url, {
             method: 'POST',
             headers: {
@@ -649,17 +649,22 @@ function __del_req(username) {
             return resp.json()
         })
         .then((data) => {
+console.log('Hfffi')
+
             if (data['success']) {
+                console.log('Hfdsfsdfi')
 
                 if (data['Follows']) {
                     document.getElementById('Head_button_action').innerHTML = 'Follow Back'
                     document.getElementById('Head_button_action').removeAttribute('onclick')
-                    document.getElementById('Head_button_action').setAttribute('onclick', '__follow_user(' + "'" + username + "'" + "')")
+                    document.getElementById('Head_button_action').setAttribute('onclick', '__follow_user(' + "'" + username + "'" + ")")
                 } else {
                     document.getElementById('Head_button_action').innerHTML = 'Follow '
                     document.getElementById('Head_button_action').removeAttribute('onclick')
-                    document.getElementById('Head_button_action').setAttribute('onclick', '__follow_user(' + "'" + username + "'" + "')")
+                    document.getElementById('Head_button_action').setAttribute('onclick', '__follow_user(' + "'" + username + "'" + ")")
                 }
+            }else{
+                console.log('Erro')
             }
         })
 }
@@ -728,18 +733,16 @@ function __unfollow_user(username) {
         })
 }
 
-if (is_owner == 'True' || show == 'True') {
-
-    //instead of added event listerns it is calling the function.. Try to sove the next four lines
-
-    document.getElementById('tagged_btn').addEventListener('click', get_tagged_posted(0))
-    document.getElementById('highlights_btn').addEventListener('click', load_bookmarks(0))
-    document.getElementById('following_btn').addEventListener('click', get_following(0))
-    document.getElementById('followers_btn').addEventListener('click', get_followers(0))
-    get_posts(0)
 
 
+try{
+get_tagged_posted(0);load_bookmarks(0);get_following(0);get_followers(0)
+
+get_posts(0)
+}catch(err){
+    //User is not allowed
 }
+
 //For Load More Buttons
 function load_more_tagged_posts() { get_tagged_posted(0) }
 

@@ -14,7 +14,8 @@
         <b>{{user}}</b> | <i>@{{user.username}}</i><br>
         <span id="__following_count_____">{{total_followers}} </span> Followers | {{total_posts}} Posts | <span id="__following__count">{{total_following}}</span> Following </span> <br> {%if is_owner%}
         <a href="#">Edit Profile <i class="fa fa-gear"></i></a> {%else%} <span id="Head-button___">Loading...</span> {%endif%}
-
+        <br>
+        {{bio}}
     </div>
 </div>
 
@@ -61,6 +62,7 @@
 {%else%}
 <h1>The Account is Private</h1>
 {%endif%}
+<script src="{%static 'js/profile.js' %}"></script>
 
 
 <script>
@@ -71,14 +73,11 @@
     var total_posts = '{{total_posts}}'
     var backend_js_file_loc = "{%static 'js/backend.js' %}"
     var home_js_file_loc = "{%static 'js/home.js' %}"
-
     var head_text = '{{button_text}}'
     var head_onclick = '{{button_on_click}}'
     var head_onclick_func = '{{button_on_click_func_parameters}}'
-    console.log(head_onclick, head_onclick_func, head_text)
     var item = ('<button id="Head_button_action"  data-id="' + user + '" onclick="' + head_onclick + "'" + head_onclick_func + "')" + '" >' + head_text + '</button>')
     document.getElementById('Head-button___').innerHTML = item
-
     function open_sec(ty) {
         var sections = document.getElementsByClassName('section_')
 
@@ -93,8 +92,5 @@
         document.getElementById(Element_).classList.add('bg-success')
     }
 </script>
+<script src="{%static 'js/profile.js' %}"></script>
 <br><br><br><br><br> {%endblock%}
-<!--
-    item = ('<div  style="display: block;margin:auto" class="follower bg-light p-2"><img src="' + followers[obj][1] + '" class="img-follower"><a class="follower-name">' + obj + '</a><br> <button data-prefix="follower_user_id" data-username="' + obj + '" id="follower_user_id' + followers[obj][1] + '" onclick=" on_click_do_functionality(' + "'" + obj + "'" + ',' + "'" + followers[obj][0][1] + "'" + ',' + "'follower_user_id'" + ')" class="' + followers[obj][0][0][1] + '">' + followers[obj][0][0][0] + '</button>  <a href="#" class="follower-link" href="#">' + obj + '</a></div>')
-    item = ('<div id="user_id' + following[obj][1] + '"style="display: block;margin:auto" class="follower bg-light p-2"><img src="' + following[obj][2] + '" class="img-follower"><a class="follower-name">' + name_ + '</a><br><button  data-id="' + name_ + '"class="btn btn-info ' + button_info[0][1] + '" data-username="' + username_ + '">' + button_info[0][0] + '</button><a href="#" class="follower-link" href="#">' + username_ + '</a> </div>')
--->
