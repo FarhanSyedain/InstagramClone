@@ -460,7 +460,7 @@ function get_and_render_replies(id,rec){
 if (page == 'home'){
     
     load_posts()
-    load_stories()
+
     
 }else{
     
