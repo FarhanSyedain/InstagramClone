@@ -9,12 +9,8 @@ from Configrations.models import *
 from itertools import chain
 from operator import attrgetter
 
-
-
 def home_page(request):
-    
- 
-    
+
     return render(request,'main/home.htm',)
 
 @api_view(['POST'])
@@ -84,98 +80,8 @@ def get_posts(request):
             
         to_be_returned = {'posts':some_posts,'others':{'has_more':False,'deleverd':len(list(all_posts)[total_recived:])},'proceed':True}
         
-        return Response(to_be_returned)
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def test_chat_main_template(request):
-    return render(request,'chat/main.htm')
-
-def test_detail(request):
-    return render(request,'chat/detail.htm')
-
-def test_not(request):
-    return render(request,'notification/notification.htm')
-
-def test_profile(request):
-    return render(request,'profile/profile.htm')
-
-def posts(request):
-    return render(request,'posts.htm')
-
-def test_detail_post(request):
-    return render(request,'main/post_detail.htm')
-
-
+        return Response(to_be_returned
+                        
 def edit_profile(request):
     
     username = request.user.username 
@@ -202,5 +108,3 @@ def friend_requests(request):
 
 def story(request):
     return render(request,'story.htm')
-
-
